@@ -1,0 +1,10 @@
+{
+  "name": "coursemate-game-tests",
+  "private": true,
+  "scripts": {
+    "test": "node game/web/test_game.js"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

@@ -1,0 +1,66 @@
+/* 本地字体、原生组件与少量自绘图形组成统一工作台，不依赖外部样式资源。 */
+:root{--cm-ink:#203d36;--cm-muted:#78857f;--cm-green:#246653;--cm-line:#e1e8e2}
+html,body,.stApp{font-family:"Segoe UI","Microsoft YaHei",sans-serif}
+.stApp{background:#f5f7f3;color:var(--cm-ink)}
+[data-testid="stHeader"]{background:#f5f7f3e6;backdrop-filter:blur(12px)}
+[data-testid="stDecoration"],[data-testid="stToolbar"] [data-testid="stBaseButton-header"]{display:none}
+[data-testid="stMainBlockContainer"]{max-width:1280px;padding:2.3rem 3rem 3rem}
+h1{font-size:2rem!important;font-weight:750!important;letter-spacing:-1px;color:#203d36;padding-bottom:.35rem!important}
+h2{font-size:1.3rem!important;color:#203d36;letter-spacing:-.3px}
+h3{font-size:1.1rem!important;color:#25483d}
+p{line-height:1.65}
+[data-testid="stCaptionContainer"]{color:#7b8880}
+[data-testid="stSidebar"]{background:#173f36;border-right:none;min-width:245px!important;max-width:270px!important;color:#d9e9df}
+[data-testid="stSidebar"]>[data-testid="stSidebarContent"]{padding-top:1.5rem}
+[data-testid="stSidebarNav"]{display:none}
+[data-testid="stSidebar"] h3,[data-testid="stSidebar"] p,[data-testid="stSidebar"] label,[data-testid="stSidebar"] [data-testid="stCaptionContainer"]{color:#d9e6dd}
+[data-testid="stSidebar"] [data-testid="stSidebarUserContent"]{padding:0 1.25rem 2rem}
+[data-testid="stSidebar"] [data-testid="stPageLink"]{border:none;background:transparent;box-shadow:none;margin:3px 0}
+[data-testid="stSidebar"] [data-testid="stPageLink"] a{color:#d7e4dc!important;padding:.7rem .8rem;border-radius:9px;font-size:14px}
+[data-testid="stSidebar"] [data-testid="stPageLink"] a:hover{background:#2b594c}
+[data-testid="stSidebar"] [data-testid="stPageLink"] a[aria-current="page"]{background:#d7e9c9;color:#173f36!important;font-weight:650}
+[data-testid="stSidebar"] [data-testid="stSelectbox"]>div>div{background:#edf3e9;border-color:#4f7566;color:#203d36}
+[data-testid="stSidebar"] hr{border-color:#ffffff20;margin:1.15rem 0}
+.cm-brand{display:flex;align-items:center;gap:11px;margin:0 0 28px;padding:6px 3px}
+.cm-brand-symbol{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:#dbeac6;color:#204c3d;font-family:Georgia,serif;font-size:24px;font-weight:bold}
+.cm-brand strong{display:block;color:#fbfff8;font-size:21px;letter-spacing:-.7px}
+.cm-brand small{display:block;color:#9ab9a7;font-size:10px;letter-spacing:2px;margin-top:2px}
+.cm-nav-label{color:#8cac99;font-size:10px;font-weight:650;letter-spacing:2px;margin:12px 12px 7px}
+.cm-eyebrow{color:#829084;font-size:10px;font-weight:650;letter-spacing:2.5px;margin:4px 0 5px}
+.cm-hero{position:relative;overflow:hidden;border-radius:20px;background:#e7eddd;border:1px solid #dce5d2;padding:30px 35px;min-height:235px;display:flex;align-items:center;justify-content:space-between;margin:8px 0 14px}
+.cm-hero-copy{z-index:1;max-width:68%}.cm-hero h2{font-size:clamp(26px,3vw,36px)!important;line-height:1.35;letter-spacing:1px;margin:12px 0;color:#1e493b;font-weight:750}
+.cm-hero p{font-size:13px;color:#607761;max-width:440px;margin:0}.cm-hero-tag{display:inline-flex;align-items:center;gap:7px;color:#416549;font-size:11px;letter-spacing:1px}.cm-hero-tag:before{content:'';width:6px;height:6px;background:#64875d;border-radius:50%}
+.cm-hero-art{width:32%;max-width:290px;min-width:175px;transform:rotate(-4deg);margin-right:6px}
+.cm-hero-trail{font-size:10px;color:#6f8469;margin-top:20px;letter-spacing:1px}
+[data-testid="stMetric"]{background:#fff;border:1px solid var(--cm-line);border-radius:14px;padding:15px 19px;box-shadow:0 3px 12px #203d3603}
+[data-testid="stMetricLabel"]{font-size:12px;color:#77877b}
+[data-testid="stMetricValue"]{font-family:"Segoe UI",sans-serif;font-size:29px;font-weight:650;color:#264c3e}
+[data-testid="stVerticalBlockBorderWrapper"]>[style*="border"]{border-color:var(--cm-line)!important;border-radius:15px!important;background:#fff}
+[data-testid="stForm"]{background:#fff;border:1px solid var(--cm-line);border-radius:14px;padding:20px}
+[data-testid="stTextInput"] input,[data-testid="stTextArea"] textarea{background:#f8faf6;border-radius:8px;border:1px solid #dfe6dc;font-size:13px}
+.stButton button,[data-testid="stFormSubmitButton"] button{border-radius:9px;border-color:#d8e3d7;min-height:38px;font-size:13px}
+.stButton button[kind="primary"],[data-testid="stFormSubmitButton"] button[kind="primary"]{background:#28654f;border-color:#28654f;color:#fff}
+[data-testid="stPageLink"] a{border-radius:8px;font-size:13px;color:#2b6250;text-decoration:none;padding:.5rem .25rem}
+[data-testid="stPageLink"] a:hover{background:#edf4e9}
+[data-testid="stExpander"]{background:#ffffff80;border-color:var(--cm-line);border-radius:12px}
+[data-testid="stExpander"] summary{font-size:13px;color:#59715e}
+[data-testid="stAlert"]{border-radius:10px;font-size:13px}
+hr{border-color:#e1e8df;margin:1.4rem 0}
+.cm-course-label{font-size:10px;font-weight:650;letter-spacing:2px;color:#78926f;margin-bottom:9px}
+.cm-course-name{font-size:22px;font-weight:700;line-height:1.5;color:#284b3b;margin:0 0 7px;overflow-wrap:anywhere}
+.cm-course-desc{font-size:12px;color:#7f8c80;line-height:1.7;margin-bottom:16px;overflow-wrap:anywhere}
+.cm-chip-row{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 8px}
+.cm-chip{font-size:11px;padding:4px 9px;background:#f0f4eb;color:#607554;border-radius:5px}
+.cm-feature{min-height:86px;padding:3px 2px 0}.cm-feature-label{font-size:9px;color:#8a9a85;font-weight:700;letter-spacing:1.8px;margin-bottom:10px}
+.cm-feature h3{font-size:16px!important;margin:0 0 7px;line-height:1.4}.cm-feature p{font-size:12px;color:#83907f;margin:0;line-height:1.7}
+.cm-game{padding:3px 2px 0}.cm-game-art{display:flex;gap:5px;margin:10px 0 19px;align-items:center}.cm-game-art span{width:45px;height:49px;display:grid;place-items:center;font-family:KaiTi,serif;font-size:27px;background:#f0e5c7;border:1px solid #b8a67d;box-shadow:0 3px #b49c72;color:#806143;transform:rotate(-7deg);border-radius:3px}.cm-game-art span:nth-child(2){transform:rotate(4deg);color:#a25b3f}.cm-game-art span:nth-child(3){transform:rotate(-2deg);color:#41727a}.cm-game h3{font-family:KaiTi,serif;font-size:22px!important;color:#645435}.cm-game p{font-size:12px;color:#8a8775;line-height:1.8}.cm-game-kicker{font-size:10px;letter-spacing:2px;color:#ad9570}
+.cm-route{display:flex;gap:11px;margin:15px 0}.cm-route-number{flex-shrink:0;display:grid;place-items:center;background:#edf2e7;color:#64805b;border-radius:50%;width:25px;height:25px;font-size:11px}.cm-route b{font-size:12px;color:#536e51;font-weight:600}.cm-route p{font-size:11px;color:#8d9987;margin:3px 0}
+.cm-list-name{font-size:15px;font-weight:650;color:#35503e;overflow-wrap:anywhere}.cm-list-meta{font-size:11px;color:#8b9586;margin-top:8px}.cm-list-desc{font-size:12px;color:#84917d;line-height:1.7;margin:8px 0;overflow-wrap:anywhere}.cm-selected{color:#678751;font-size:10px;padding:3px 6px;background:#edf3e4;border-radius:4px;margin-left:6px}
+.cm-footer{font-size:10px;color:#97a18f;text-align:center;letter-spacing:1px;margin-top:30px;padding-top:15px;border-top:1px solid #e3e9de}
+@media(max-width:1050px){[data-testid="stMainBlockContainer"]{padding:1.8rem 1.5rem 2rem}.cm-hero{padding:25px;min-height:215px}.cm-hero-art{min-width:130px}.cm-hero h2{font-size:28px!important}}
+@media(max-width:640px){[data-testid="stMainBlockContainer"]{padding:1.2rem 1rem 2rem}h1{font-size:1.65rem!important}.cm-hero{padding:22px;min-height:210px}.cm-hero-copy{max-width:100%}.cm-hero-art{display:none}.cm-hero h2{font-size:27px!important}.cm-hero p{font-size:12px}.cm-hero-trail{letter-spacing:0;font-size:9px}[data-testid="stMetric"]{padding:12px 14px}[data-testid="stMetricValue"]{font-size:25px}}
+
+.cm-hero{padding:25px 30px;min-height:220px}.cm-hero h2{padding:0!important;margin:12px 0!important;font-size:clamp(26px,2.6vw,34px)!important;line-height:1.28}[class*="st-key-card_"]{background:#fff;border-radius:15px}
+
+[data-testid="stSidebar"] [data-testid="stIconMaterial"], [data-testid="stSidebar"] button[aria-label="Collapse sidebar"]{color:#c6dbca}
+@media(max-width:640px){.st-key-overview_metrics [data-testid="stHorizontalBlock"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.st-key-overview_metrics [data-testid="stColumn"]{width:100%!important;min-width:0!important;flex:initial!important}}

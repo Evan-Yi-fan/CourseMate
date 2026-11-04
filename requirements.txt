@@ -1,0 +1,26 @@
+# CourseMate 依赖清单（已在 Python 3.11.15 / Windows 上实测通过）
+# 安装：pip install -r requirements.txt
+# 说明：版本是本机验证过的组合，避免"能装但跑不起来"。
+
+# ---- 界面 ----
+streamlit==1.66.1
+
+# ---- 大模型（OpenAI 兼容接口）----
+openai==3.42.1
+python-dotenv==1.2.4
+
+# ---- 文档解析 ----
+pymupdf==2.1
+python-docx==1.2.0
+python-pptx==1.0.2
+pywin32==311; sys_platform == "win32"
+
+# ---- 向量库与向量化 ----
+chromadb==1.5.9
+sentence-transformers==6.2.0
+# torch 由 sentence-transformers 自动拉取（约 2GB），首次安装需预留磁盘与时间
+# torch==2.15.0
+
+# ---- 数据表与图表 ----
+pandas==3.1.0
+plotly==7.1.0
