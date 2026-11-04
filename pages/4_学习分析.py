@@ -12,7 +12,7 @@ import streamlit as st
 
 from database import db
 from services.analysis_service import advice, overview
-from ui_common import boot, course_selector, require_course
+from ui.common import boot, course_selector, require_course
 
 st.set_page_config(page_title="学习分析 · CourseMate", page_icon="📊", layout="wide")
 

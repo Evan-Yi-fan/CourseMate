@@ -11,7 +11,7 @@ from database import db
 from knowledge.retriever import CourseIndex
 from services import document_service as docsvc
 from services import deletion_service
-from ui_common import boot, course_selector, error_box, require_course, clear_course_learning_state
+from ui.common import boot, course_selector, error_box, require_course, clear_course_learning_state
 
 st.set_page_config(page_title="课程知识库 · CourseMate", page_icon="📄", layout="wide")
 

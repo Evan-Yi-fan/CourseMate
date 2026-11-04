@@ -11,8 +11,8 @@ from database import db
 from knowledge.retriever import CourseIndex
 from modes import PlayContext, all_modes, get_mode
 from services.quiz_service import QuizError, QuizService, grade_batch
-from ui_common import boot, course_selector, require_course
-from ui_quiz import quiz_controls
+from ui.common import boot, course_selector, require_course
+from ui.quiz import quiz_controls
 
 st.set_page_config(page_title="智能试题 · CourseMate", page_icon="📝", layout="wide")
 

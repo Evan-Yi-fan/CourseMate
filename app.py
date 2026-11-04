@@ -5,7 +5,7 @@ from html import escape
 import streamlit as st
 from config.settings import ConfigError, Settings
 from database import db
-from ui_common import boot, course_selector, clear_course_learning_state
+from ui.common import boot, course_selector, clear_course_learning_state
 from services import deletion_service
 
 st.set_page_config(page_title="CourseMate 课友 · 学习工作台", page_icon="📚", layout="wide")

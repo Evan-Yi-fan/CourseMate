@@ -14,7 +14,7 @@ from database import db
 from knowledge.retriever import CourseIndex
 from services.llm_service import LLMService
 from services.qa_service import QAService
-from ui_common import boot, course_selector, require_course
+from ui.common import boot, course_selector, require_course
 
 st.set_page_config(page_title="AI 智能问答 · CourseMate", page_icon="💬", layout="wide")
 

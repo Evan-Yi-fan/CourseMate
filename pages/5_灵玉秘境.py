@@ -25,8 +25,8 @@ from game.config import economy_config as cfg
 from game.view import build_config, build_html
 from modes.base import complete_answers
 from services.quiz_service import QuizError, QuizService, grade_batch
-from ui_common import boot, course_selector, require_course
-from ui_quiz import quiz_controls
+from ui.common import boot, course_selector, require_course
+from ui.quiz import quiz_controls
 
 st.set_page_config(page_title="灵玉秘境 · CourseMate", page_icon="🀄", layout="wide")
 

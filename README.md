@@ -8,7 +8,13 @@
 
 **参赛主题：科研与知识挖掘** · Python 3.11 · Streamlit · 本地知识库
 
-[快速运行](#快速运行) · [体验流程](#体验流程) · [技术实现](#技术实现) · [使用说明](docs/使用说明.md) · [项目海报](assets/presentation/poster.png)
+[快速运行](#快速运行) · [体验流程](#体验流程) · [技术实现](#技术实现) · [仓库结构](#仓库结构) · [使用说明](docs/使用说明.md) · [项目海报](assets/presentation/poster.png)
+
+| 想了解或体验什么 | 从哪里开始 | 需要准备什么 |
+| --- | --- | --- |
+| 了解项目功能与实现 | 阅读下方功能表、技术流程及使用边界 | 无需安装 |
+| 体验完整学习流程 | 按「快速运行」启动，再用仓库样例完成「体验流程」 | Python 3.11、模型 API 密钥、首次模型下载 |
+| 先体验互动游戏 | 启动后进入「灵玉秘境」→「免答题试玩新场景」 | 安装 Python 依赖即可，不需要 API 密钥或创建课程 |
 
 ## 为什么做课友
 
@@ -133,7 +139,7 @@ flowchart LR
 - **删除范围**：删除资料会清理对应文件与索引，保留历史题目和作答；删除课程会清理整门课程的文件、索引及学习记录，均需页面确认。
 - **运行方式**：面向单用户本地使用，没有登录及多租户隔离。游戏在 iframe 中运行，操作外层 Streamlit 控件可能重置本局；游戏进度未持久化。
 
-## 验证与仓库结构
+## 验证
 
 当前验证：**135 项 Python 用例、148 项游戏断言通过**，覆盖资料解析、检索与课程隔离、问答引用、出题校验、判分奖励、删除回退和关键页面交互。自动化测试不替代真实模型效果与完整浏览器体验验收，也不代表已经验证学习成绩提升。
 
@@ -142,23 +148,45 @@ flowchart LR
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 
 # 游戏交互回归（仅测试需要 Node.js，日常运行不需要）
-npm ci
-npm test
+npm --prefix tests/game ci
+npm --prefix tests/game test
 ```
 
+测试使用临时数据库和资料目录，不会覆盖正常使用时保存的课程数据。Node.js 依赖只安装在 `tests/game/node_modules/`，与应用运行资源分开。
+
+## 仓库结构
+
+根目录保留启动、安装和项目说明入口，其他文件按用途归类：
+
 ```text
-app.py / pages/       首页与课程知识库、问答、试题、分析、游戏入口
-services/             资料管理、问答、出题判分与学习分析
-knowledge/            文档解析、分块、向量化和检索
-agent/                意图路由与工具调用
-database/ / config/   数据存储与运行配置
-game/ / modes/        游戏资源、奖励规则与答题界面
-ui_common.py / ui_quiz.py / ui/  共用交互与主题
-samples/ / scripts/   原创样例、演示导入与环境自检
-tests/                Python 自动化测试
-assets/presentation/  正式封面与海报
-docs/使用说明.md       操作说明、格式限制和常见问题
+CourseMate/
+├── README.md               项目介绍与快速体验
+├── app.py                  Streamlit 启动入口与首页
+├── requirements.txt        Python 安装入口
+├── .env.example            模型与存储配置模板
+├── pages/                  知识库、问答、试题、分析、游戏页面
+├── ui/                     共用交互与主题
+│   ├── common.py           页面初始化、课程选择与导航
+│   ├── quiz.py             两处出题入口共用设置
+│   └── theme.css           主应用样式
+├── services/               资料管理、问答、出题判分与分析
+├── knowledge/              解析、分块、向量化与检索
+├── agent/                  自然语言意图路由与工具
+├── database/               SQLite 数据访问
+├── config/                 应用配置读取与校验
+├── modes/                  普通答题界面与接口
+├── game/                   游戏配置、奖励与页面组装
+│   └── web/                游戏 HTML、CSS、JS 与 SVG
+├── samples/                原创体验资料
+├── scripts/                环境自检、样例导入与生成
+├── tests/                  Python 回归测试
+│   └── game/               游戏交互测试及 Node 依赖清单
+├── requirements/           完整依赖版本锁定记录
+├── assets/presentation/    正式封面与海报
+└── docs/使用说明.md         操作详情、格式限制与常见问题
 ```
+
+安装与运行时，本机会生成 `.venv/`（Python 环境）和 `data/`（资料与学习数据）；它们以及 `.env` 均不进入公开仓库。安装以根目录 `requirements.txt` 为准，`requirements/locked.txt` 用于核对已验证环境的完整依赖版本。
 
 ## 展示材料
 

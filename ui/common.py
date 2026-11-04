@@ -1,6 +1,6 @@
 """Streamlit 页面共用的启动逻辑与小组件。
 
-放在项目根目录（而不是 pages/）是为了避免被 Streamlit 当成一个页面。
+共用界面代码集中在 ui 包内，避免与 Streamlit 页面入口混在一起。
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ def _boot_settings() -> Settings:
 def boot() -> Settings:
     """配置缓存与页面渲染分开，否则主题只会在首次加载时出现。"""
     settings = _boot_settings()
-    css = (Path(__file__).parent / "ui" / "theme.css").read_text(encoding="utf-8")
+    css = (Path(__file__).parent / "theme.css").read_text(encoding="utf-8")
     st.markdown("<style>" + css + "</style>", unsafe_allow_html=True)
     with st.sidebar:
         st.markdown('<div class="cm-brand"><div class="cm-brand-symbol">C</div><div><strong>CourseMate</strong><small>课友 · AI 学习助手</small></div></div><div class="cm-nav-label">学习工作台</div>', unsafe_allow_html=True)
