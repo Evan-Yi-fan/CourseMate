@@ -117,6 +117,7 @@ key = f"advice_{course_id}"
 if st.button("生成复习建议", type="primary"):
     if not settings.llm_ready:
         st.error("大模型未配置，无法生成建议。")
+        st.page_link("pages/6_模型设置.py", label="前往模型设置", icon=":material/settings:")
     else:
         with st.spinner("正在分析你的错题…"):
             try:

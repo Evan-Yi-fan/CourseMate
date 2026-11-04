@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.example
+model_settings.json
+.model_*.tmp
 
 # 虚拟环境
 .venv/

@@ -1,7 +1,7 @@
 """集中式配置。
 
 原则：
-1. 所有可变项都来自环境变量 / .env，业务代码里不出现任何密钥或模型名；
+1. 基础配置来自环境变量 / .env，模型配置可由本机界面保存的设置覆盖；
 2. 缺配置时不是抛一个看不懂的堆栈，而是给出"缺哪一项、去哪配"的可读错误；
 3. 路径一律解析成绝对路径，避免 Streamlit 在 pages/ 下标页时工作目录变化导致读不到文件。
 """
@@ -141,7 +141,8 @@ class Settings:
             log_level=_env("LOG_LEVEL", "INFO").upper(),
         )
         s.validate()
-        return s
+        from config.model_settings import apply
+        return apply(s)
 
     # ------------------------------------------------------------------
     def validate(self) -> None:

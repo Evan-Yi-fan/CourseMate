@@ -28,7 +28,8 @@ if CourseIndex(settings, course_id).count() == 0:
     st.stop()
 
 if not settings.llm_ready:
-    st.error("大模型未配置：请在 `.env` 中填写 LLM_API_KEY 与 LLM_MODEL 后重启。")
+    st.warning("大模型未配置，请先到「模型设置」填写 API 地址、密钥和模型名称。")
+    st.page_link("pages/6_模型设置.py", label="前往模型设置", icon=":material/settings:")
     st.stop()
 
 QK, RK = "quiz_questions", "quiz_result"

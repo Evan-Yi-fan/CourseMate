@@ -161,7 +161,8 @@ with st.expander("连接与系统状态", expanded=False):
     b.metric("资料存储", "本机")
     c.metric("模型配置", "已配置" if settings.llm_ready else "待配置")
     if not settings.llm_ready:
-        st.info("填写项目 .env 中的模型配置后重启应用，即可使用问答和出题功能。")
+        st.info("在「模型设置」中填写 API 地址、密钥与模型名称，即可使用问答和出题。")
+    st.page_link("pages/6_模型设置.py", label="配置 API 与模型 →", icon=":material/settings:")
     if st.button("测试模型连接", disabled=not settings.llm_ready):
         from services.llm_service import LLMService
         with st.spinner("正在测试连接…"):

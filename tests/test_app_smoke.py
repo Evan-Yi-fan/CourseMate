@@ -128,6 +128,68 @@ class TestAppSmoke(unittest.TestCase):
         joined = " ".join(m.value for m in at.success)
         self.assertIn("数字图像处理", joined)
 
+    def test_model_settings_save_applies_without_restart_or_course(self):
+        from config import model_settings
+        from ui.common import _boot_settings
+        at = AppTest.from_file(str(APP), default_timeout=30).run()
+        at.switch_page("pages/6_模型设置.py").run()
+        self.assertEqual(list(at.exception), [])
+        at.text_input(key="model_base_url").set_value("https://demo.example/v1")
+        at.text_input(key="model_name").set_value("demo-model")
+        at.text_input(key="model_api_key").set_value("synthetic-interface-key")
+        with patch("services.llm_service.LLMService.ping") as ping:
+            next(b for b in at.button if b.label == "保存配置").click().run()
+            ping.assert_not_called()
+        self.assertEqual(list(at.exception), [])
+        self.assertTrue(any("立即生效" in msg.value for msg in at.success))
+        self.assertEqual(at.text_input(key="model_api_key").value, "")
+        saved = model_settings.apply(_boot_settings())
+        self.assertEqual(saved.llm_model, "demo-model")
+        at.switch_page("app.py").run()
+        self.assertEqual(list(at.exception), [])
+        self.assertEqual(model_settings.apply(_boot_settings()).llm_api_key, "synthetic-interface-key")
+        st.cache_resource.clear()
+        at.run()
+        self.assertEqual(model_settings.apply(_boot_settings()).llm_model, "demo-model")
+        cid, ids = self._course_with_materials()
+        at.switch_page("pages/3_智能试题.py").run()
+        at.multiselect[0].set_value([ids[0]]).run()
+        with patch("services.quiz_service.QuizService.generate", autospec=True, return_value=[]) as generate:
+            at.button(key="quiz_gen").click().run()
+            self.assertEqual(generate.call_args.args[0].settings.llm_model, "demo-model")
+            self.assertEqual(generate.call_args.args[0].settings.llm_api_key, "synthetic-interface-key")
+
+    def test_model_connection_test_uses_form_without_saving(self):
+        from config import model_settings
+        from ui.common import _boot_settings
+        at = AppTest.from_file(str(APP), default_timeout=30).run()
+        at.switch_page("pages/6_模型设置.py").run()
+        at.text_input(key="model_base_url").set_value("https://demo.example/v1")
+        at.text_input(key="model_name").set_value("unsaved-model")
+        at.text_input(key="model_api_key").set_value("synthetic-test-key")
+        success = {"ok": True, "model":"unsaved-model", "latency_ms":10}
+        with patch("services.llm_service.LLMService.ping", return_value=success, autospec=True) as ping:
+            next(b for b in at.button if b.label == "测试当前填写配置").click().run()
+            self.assertEqual(ping.call_args.args[0].settings.llm_model, "unsaved-model")
+        self.assertEqual(list(at.exception), [])
+        self.assertFalse(model_settings.config_path(_boot_settings()).exists())
+        with patch("services.llm_service.LLMService.ping", return_value={"ok":False,"message":"测试鉴权失败"}):
+            next(b for b in at.button if b.label == "测试当前填写配置").click().run()
+        self.assertTrue(any("测试鉴权失败" in item.value for item in at.error))
+
+    def test_model_settings_preset_change_and_validation(self):
+        at = AppTest.from_file(str(APP), default_timeout=30).run()
+        at.switch_page("pages/6_模型设置.py").run()
+        at.selectbox(key="model_preset").set_value("通义千问（兼容接口）").run()
+        self.assertEqual(list(at.exception), [])
+        self.assertEqual(at.text_input(key="model_base_url").value, "https://dashscope.aliyuncs.com/compatible-mode/v1")
+        self.assertEqual(at.text_input(key="model_api_key").value, "")
+        at.text_input(key="model_name").set_value("test-model")
+        with patch("services.llm_service.LLMService.ping") as ping:
+            next(b for b in at.button if b.label == "保存配置").click().run()
+            ping.assert_not_called()
+        self.assertTrue(any("密钥" in item.value for item in at.error))
+
     def _course_with_materials(self):
         from config.settings import Settings
         from database import db

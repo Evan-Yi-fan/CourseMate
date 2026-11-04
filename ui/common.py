@@ -33,6 +33,9 @@ def _boot_settings() -> Settings:
 def boot() -> Settings:
     """配置缓存与页面渲染分开，否则主题只会在首次加载时出现。"""
     settings = _boot_settings()
+    # 模型设置每次重绘重新读取，课程数据库初始化仍使用缓存。
+    from config.model_settings import apply
+    settings = apply(settings)
     css = (Path(__file__).parent / "theme.css").read_text(encoding="utf-8")
     st.markdown("<style>" + css + "</style>", unsafe_allow_html=True)
     with st.sidebar:
@@ -44,6 +47,7 @@ def boot() -> Settings:
             ("pages/3_智能试题.py", "智能试题", ":material/edit_note:"),
             ("pages/4_学习分析.py", "学习分析", ":material/insights:"),
             ("pages/5_灵玉秘境.py", "灵玉秘境", ":material/sports_esports:"),
+            ("pages/6_模型设置.py", "模型设置", ":material/settings:"),
         ]:
             st.page_link(page, label=label, icon=icon, use_container_width=True)
         st.divider()

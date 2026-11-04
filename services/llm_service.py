@@ -6,7 +6,7 @@
 设计要点：
 - 密钥只从 Settings 来，日志里只出现打码后的值；
 - 超时、重试、错误分类集中在这里，上层拿到的永远是可读的中文错误；
-- ping() 供"阶段 A 连通性测试"和界面自检使用，不产生任何副作用。
+- ping() 发起短请求验证连通性，不修改配置或学习数据。
 """
 
 from __future__ import annotations
@@ -59,7 +59,7 @@ class LLMService:
             missing = "、".join(self.settings.llm_missing())
             raise LLMNotConfigured(
                 f"大模型尚未配置，缺少：{missing}。"
-                "请复制 .env.example 为 .env 并填入你的 API Key 与可用模型名。"
+                "请到「模型设置」填写 API 地址、密钥与可用模型名称，也可使用 .env 配置。"
             )
 
     @property
@@ -159,7 +159,7 @@ class LLMService:
     def _describe_status(exc: APIStatusError) -> str:
         code = exc.status_code
         if code == 401:
-            return "API Key 无效或已过期（401）。请检查 .env 中的 LLM_API_KEY。"
+            return "API Key 无效或已过期（401）。请到「模型设置」检查 API 密钥。"
         if code == 403:
             return "当前 Key 没有调用该模型的权限（403）。请确认账号已开通该模型。"
         if code == 404:

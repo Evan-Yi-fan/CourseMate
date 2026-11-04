@@ -74,7 +74,8 @@ if stage == "quiz":
 
         document_ids, count, qtype, generate = quiz_controls(settings, course_id, prefix="lj")
         if not settings.llm_ready:
-            st.info("请先配置大模型后生成题目，或使用免答题试玩。")
+            st.info("请先到「模型设置」配置大模型后生成题目，或使用免答题试玩。")
+            st.page_link("pages/6_模型设置.py", label="前往模型设置", icon=":material/settings:")
         if generate:
             try:
                 with st.spinner("正在出题…"):
