@@ -103,14 +103,16 @@ def activate_course(cid: int) -> None:
 with creation:
     st.subheader("创建新课程")
     with st.form("create_course", clear_on_submit=True):
-        name = st.text_input("课程名称", placeholder="例如：数字图像处理")
-        submitted = st.form_submit_button("创建课程", type="primary", use_container_width=True)
+        name = st.text_input("课程名称", placeholder="例如：数字图像处理", disabled=settings.public_demo)
+        submitted = st.form_submit_button("创建课程", type="primary", use_container_width=True, disabled=settings.public_demo)
     flash = st.session_state.pop("flash", None)
     if flash:
         st.success(flash)
     for warning in st.session_state.pop("deletion_warnings", []):
         st.warning(warning)
-    if submitted:
+    if settings.public_demo:
+        st.caption("公开版已预置课程；创建和资料管理功能请使用本地版。")
+    if submitted and not settings.public_demo:
         try:
             cid = db.create_course(settings.db_path, name)
         except ValueError as exc:
@@ -135,6 +137,8 @@ with collection:
                 description = f'<div class="cm-list-desc">{escape(course["description"])}</div>' if course.get("description") else ""
                 st.markdown(f'<div class="cm-list-name">{escape(course["name"])} {badge}</div>{description}<div class="cm-list-meta">{course["doc_count"]} 份资料 &nbsp;·&nbsp; {course["question_count"]} 道题目</div>', unsafe_allow_html=True)
                 st.button("正在学习" if selected else "设为当前课程", key=f"choose_course_{course['id']}", disabled=selected, on_click=activate_course, args=(course["id"],), use_container_width=True)
+                if settings.public_demo:
+                    continue
                 with st.popover("删除课程", icon=":material/delete_outline:", use_container_width=True):
                     st.warning(f"将永久删除「{course['name']}」及其资料、索引、题目、作答和聊天记录。")
                     confirmed = st.checkbox("确认删除这门课程及全部学习记录", key=f"confirm_delete_course_{course['id']}")
@@ -154,6 +158,10 @@ with collection:
                             st.error(str(exc))
 
 st.write("")
+if settings.public_demo:
+    st.caption("展示版支持真实 AI 问答与出题；API 调用有共享体验额度。完整课程管理与模型设置请下载本地版。")
+    st.link_button("查看项目源码与使用说明", "https://github.com/Evan-Yi-fan/CourseMate")
+    st.stop()
 with st.expander("连接与系统状态", expanded=False):
     st.caption("配置状态不代表已成功连接；可按需进行连接测试。")
     a, b, c = st.columns(3)

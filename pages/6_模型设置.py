@@ -10,6 +10,9 @@ from ui.common import boot
 
 st.set_page_config(page_title="模型设置 · CourseMate", page_icon="⚙️", layout="wide")
 settings = boot()
+if settings.public_demo:
+    st.info("公开体验版的模型由管理员配置。完整配置功能可在本地版使用。")
+    st.stop()
 st.title("模型设置")
 st.caption("在这里连接你的大模型，保存后即可用于问答、出题和复习建议，无需修改 .env 或重启。")
 

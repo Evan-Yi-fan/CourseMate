@@ -45,50 +45,53 @@ st.divider()
 # ----------------------------------------------------------------------
 # 上传
 # ----------------------------------------------------------------------
-st.subheader("上传资料")
-for message in st.session_state.pop("upload_successes", []):
-    st.success(message)
-upload_failures = st.session_state.pop("upload_failures", [])
-if upload_failures:
-    with st.expander(f"有 {len(upload_failures)} 个文件失败，点击查看原因", expanded=True):
-        for name, message in upload_failures:
-            st.error(f"**{name}**\n\n{message}")
-st.caption(
-    f"支持 PDF / DOCX / TXT / PPTX / PPT，单个文件不超过 {settings.max_upload_mb}MB。"
-    "扫描版 PDF（无文字层）无法解析，本项目不含 OCR。PPTX 按幻灯片页码提取正文、表格、组合图形和备注；旧版 PPT 需本机 PowerPoint。"
-)
+if settings.public_demo:
+    st.caption("公开版使用预置原创样例资料，上传与删除请在本地版体验。")
+else:
+    st.subheader("上传资料")
+    for message in st.session_state.pop("upload_successes", []):
+        st.success(message)
+    upload_failures = st.session_state.pop("upload_failures", [])
+    if upload_failures:
+        with st.expander(f"有 {len(upload_failures)} 个文件失败，点击查看原因", expanded=True):
+            for name, message in upload_failures:
+                st.error(f"**{name}**\n\n{message}")
+    st.caption(
+        f"支持 PDF / DOCX / TXT / PPTX / PPT，单个文件不超过 {settings.max_upload_mb}MB。"
+        "扫描版 PDF（无文字层）无法解析，本项目不含 OCR。PPTX 按幻灯片页码提取正文、表格、组合图形和备注；旧版 PPT 需本机 PowerPoint。"
+    )
 
-upload_version_key = f"upload_version_{course_id}"
-uploaded = st.file_uploader(
-    "选择文件（可多选）",
-    type=["pdf", "docx", "txt", "pptx", "ppt"],
-    accept_multiple_files=True,
-    label_visibility="collapsed",
-    key=f"course_upload_{course_id}_{st.session_state.get(upload_version_key, 0)}",
-)
+    upload_version_key = f"upload_version_{course_id}"
+    uploaded = st.file_uploader(
+        "选择文件（可多选）",
+        type=["pdf", "docx", "txt", "pptx", "ppt"],
+        accept_multiple_files=True,
+        label_visibility="collapsed",
+        key=f"course_upload_{course_id}_{st.session_state.get(upload_version_key, 0)}",
+    )
 
-if uploaded and st.button(f"开始处理 {len(uploaded)} 个文件", type="primary"):
-    progress = st.progress(0.0, text="准备处理…")
-    successes, failed = [], []
-    for i, uf in enumerate(uploaded, start=1):
-        progress.progress((i - 1) / len(uploaded), text=f"正在处理 {uf.name} …")
-        try:
-            data = uf.getvalue()
-            # 先做类型/大小校验，把错误挡在落盘之前
-            docsvc.validate_upload(settings, uf.name, len(data))
-            result = docsvc.handle_upload(settings, course_id, uf.name, data)
-            successes.append(
-                f"「{uf.name}」已入库：{result['pages']} 页 → {result['chunks']} 个向量块"
-            )
-        except Exception as exc:  # noqa: BLE001
-            failed.append((uf.name, f"{type(exc).__name__}: {exc}"))
-    progress.progress(1.0, text="处理完成")
+    if uploaded and st.button(f"开始处理 {len(uploaded)} 个文件", type="primary"):
+        progress = st.progress(0.0, text="准备处理…")
+        successes, failed = [], []
+        for i, uf in enumerate(uploaded, start=1):
+            progress.progress((i - 1) / len(uploaded), text=f"正在处理 {uf.name} …")
+            try:
+                data = uf.getvalue()
+                # 先做类型/大小校验，把错误挡在落盘之前
+                docsvc.validate_upload(settings, uf.name, len(data))
+                result = docsvc.handle_upload(settings, course_id, uf.name, data)
+                successes.append(
+                    f"「{uf.name}」已入库：{result['pages']} 页 → {result['chunks']} 个向量块"
+                )
+            except Exception as exc:  # noqa: BLE001
+                failed.append((uf.name, f"{type(exc).__name__}: {exc}"))
+        progress.progress(1.0, text="处理完成")
 
-    st.session_state.upload_successes = successes
-    st.session_state.upload_failures = failed
-    # 换一个上传组件实例清空选择，处理结果跨重绘保留。
-    st.session_state[upload_version_key] = st.session_state.get(upload_version_key, 0) + 1
-    st.rerun()
+        st.session_state.upload_successes = successes
+        st.session_state.upload_failures = failed
+        # 换一个上传组件实例清空选择，处理结果跨重绘保留。
+        st.session_state[upload_version_key] = st.session_state.get(upload_version_key, 0) + 1
+        st.rerun()
 
 st.divider()
 
@@ -118,6 +121,9 @@ else:
                 if d["status"] == "failed" and d.get("error"):
                     st.caption(d["error"][:200])
             with right:
+                if settings.public_demo:
+                    st.caption("展示资料 · 只读")
+                    continue
                 if st.button("重建索引", key=f"reindex_{d['id']}"):
                     try:
                         with st.spinner("重建中…"):

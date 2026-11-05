@@ -92,10 +92,17 @@ class LLMService:
     ) -> ChatResult:
         """单轮/多轮对话。失败会抛 LLMError 子类，附带可读原因。"""
         self._ensure_ready()
+        if self.settings.public_demo:
+            if sum(len(m.get("content", "")) for m in messages) > 24000:
+                raise LLMError("展示版单次内容过长，请缩短问题或减少题数。")
+            max_tokens = min(max_tokens or 3000, 3000)
         attempts = max(1, self.settings.llm_max_retries + 1)
         last_exc: Exception | None = None
 
         for attempt in range(1, attempts + 1):
+            if self.settings.public_demo:
+                from services.demo_service import reserve_request
+                reserve_request()
             started = time.perf_counter()
             try:
                 kwargs: dict[str, Any] = {

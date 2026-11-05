@@ -60,6 +60,8 @@ def read(settings: Settings) -> dict:
 
 
 def apply(settings: Settings) -> Settings:
+    if settings.public_demo:
+        return settings
     try:
         return replace(settings, **read(settings))
     except ConfigError:
@@ -68,6 +70,8 @@ def apply(settings: Settings) -> Settings:
 
 
 def save(settings: Settings) -> None:
+    if settings.public_demo:
+        raise ConfigError("公开体验版由管理员配置模型，访客不能修改。")
     validated = candidate(settings, provider=settings.llm_provider, base_url=settings.llm_base_url,
                           api_key=settings.llm_api_key, model=settings.llm_model, timeout=settings.llm_timeout)
     path = config_path(settings)

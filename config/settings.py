@@ -105,6 +105,7 @@ class Settings:
 
     # ---- 运行 ----
     log_level: str = "INFO"
+    public_demo: bool = False
 
     # ------------------------------------------------------------------
     @classmethod
@@ -139,6 +140,7 @@ class Settings:
             qa_min_score=_env_float("QA_MIN_SCORE", 0.35),
             qa_top_k=_env_int("QA_TOP_K", 4),
             log_level=_env("LOG_LEVEL", "INFO").upper(),
+            public_demo=_env("COURSEMATE_PUBLIC_DEMO", "false").lower() in _TRUE,
         )
         s.validate()
         from config.model_settings import apply
