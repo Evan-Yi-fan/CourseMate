@@ -2,16 +2,19 @@
 
 **让课程资料，成为学习伙伴。**
 
+**[在线体验 CourseMate 课友 →](https://coursemate-nzozaoqbsnvfadv8u6hyjq.streamlit.app/)** · [查看源码](https://github.com/Evan-Yi-fan/CourseMate)
+
 面向课程学习与专业知识梳理的 AI 助手：把自己的讲义、课件和复习资料，变成**有来源的问答、可作答的试题与可回看的学习记录**。
 
 ![CourseMate 课友项目封面](assets/presentation/cover.png)
 
 **参赛主题：科研与知识挖掘** · Python 3.11 · Streamlit · 本地知识库
 
-[快速运行](#快速运行) · [体验流程](#体验流程) · [技术实现](#技术实现) · [仓库结构](#仓库结构) · [使用说明](docs/使用说明.md) · [项目海报](assets/presentation/poster.png)
+[在线体验](#在线体验) · [本地运行](#快速运行) · [体验流程](#体验流程) · [技术实现](#技术实现) · [仓库结构](#仓库结构) · [使用说明](docs/使用说明.md) · [项目海报](assets/presentation/poster.png)
 
 | 想了解或体验什么 | 从哪里开始 | 需要准备什么 |
 | --- | --- | --- |
+| 直接体验示例课程 | [打开在线展示版](https://coursemate-nzozaoqbsnvfadv8u6hyjq.streamlit.app/) | 无需本地安装；AI 功能受共享体验额度限制 |
 | 了解项目功能与实现 | 阅读下方功能表、技术流程及使用边界 | 无需安装 |
 | 体验完整学习流程 | 按「快速运行」启动，再用仓库样例完成「体验流程」 | Python 3.11、模型 API 密钥、首次模型下载 |
 | 先体验互动游戏 | 启动后进入「灵玉秘境」→「免答题试玩新场景」 | 安装 Python 依赖即可，不需要 API 密钥或创建课程 |
@@ -36,11 +39,15 @@
 
 问答页提供「帮我总结这些资料」「帮我找一下这个知识点的位置：」提示，点击只填入输入框，编辑后再发送。开启 Agent 自动路由后，还可用自然语言请求出题或查看错题。
 
-## 在线展示部署
+## 在线体验
 
-已提供公开体验入口 `streamlit_demo.py`，可从本仓库部署到 Streamlit Community Cloud。展示版自动准备示例课程、隔离访客学习记录，并限制管理操作和模型用量。**实际体验地址待平台部署成功后获取，目前尚未发布。**
+**[点击打开 CourseMate 课友](https://coursemate-nzozaoqbsnvfadv8u6hyjq.streamlit.app/)**
 
-参见[在线部署说明](docs/在线部署.md)与 [Secrets 配置模板](.streamlit/secrets.example.toml)。本地完整版本继续使用下方启动方式。
+展示版预置原创「数字图像处理」课件与补充讲义，可从问答、智能试题、学习分析和灵玉秘境体验学习流程。访客学习记录按会话隔离，断开会话或服务重启后可能重置；模型调用有共享体验额度。
+
+在线版使用只读样例课程。创建课程、上传与删除资料、可视化模型配置等完整功能，可按下方说明在本地运行。
+
+部署入口为 `streamlit_demo.py`。部署维护参见[在线部署说明](docs/在线部署.md)与 [Secrets 配置模板](.streamlit/secrets.example.toml)。
 
 ## 快速运行
 
